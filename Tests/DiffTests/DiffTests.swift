@@ -6,7 +6,14 @@ class DiffTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(Diff().text, "Hello, World!")
+        let x = "abcd"
+        let y = "acd"
+        let diff = Diff(from: x, to: y)
+        diff.matrix.forEach {
+            print($0)
+        }
+        
+        
     }
 
 
