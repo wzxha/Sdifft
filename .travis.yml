@@ -4,3 +4,5 @@ osx_image: xcode9.3
 script:
   - set -o pipefail
   - xcodebuild test -enableCodeCoverage YES -project Diff.xcodeproj -scheme Diff-Package -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.3' ONLY_ACTIVE_ARCH=NO | xcpretty
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
