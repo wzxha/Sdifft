@@ -107,6 +107,9 @@ extension Array where Element == Int {
     /// Get [Range<Int>] with [Int]
     /// - example: [0, 3, 4] -> [1...2]
     func getChangeRanges(max: Int) -> [CountableClosedRange<Int>] {
+        if count == 0, max >= 0 {
+            return [0...max]
+        }
         var ranges: [CountableClosedRange<Int>] = []
         var begin = first ?? 0
         if begin != 0 {
@@ -125,9 +128,6 @@ extension Array where Element == Int {
                 ranges.append((current + 1)...(next - 1))
             }
             begin = next
-        }
-        if count == 0, max >= 0 {
-            ranges.append(0...max)
         }
         return ranges
     }

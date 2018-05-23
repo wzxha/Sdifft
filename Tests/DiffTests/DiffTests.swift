@@ -156,10 +156,22 @@ class DiffTests: XCTestCase {
         )
     }
 
+    func testTime() {
+        // 1000 character * 1000 character: 3.681s
+        measure {
+            let _ =
+            Diff(
+                from: "abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkbexjabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk123abcdhijkabcdhijkabcdhijkabcdhijk12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123",
+                to: "abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk"
+            )
+        }
+    }
+    
     static var allTests = [
         ("testMatrix", testMatrix),
         ("testRange", testRange),
         ("testString1", testString1),
-        ("testString2", testString2)
+        ("testString2", testString2),
+        ("testTime", testTime)
     ]
 }
