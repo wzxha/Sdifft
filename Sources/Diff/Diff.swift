@@ -134,9 +134,9 @@ extension Array where Element == Int {
 }
 
 public struct Modification {
-    let add: [CountableClosedRange<Int>]
-    let delete: [CountableClosedRange<Int>]
-    let same: [CountableClosedRange<Int>]
+    public let add: [CountableClosedRange<Int>]
+    public let delete: [CountableClosedRange<Int>]
+    public let same: [CountableClosedRange<Int>]
     
     init(from: String, to: String, matrix: Matrix) {
         let same =
