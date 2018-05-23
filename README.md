@@ -50,4 +50,4 @@ github "Wzxhaha/Sdifft"
 ```
 
 ## License
-Diff is released under the MIT license. See LICENSE for details.
+Sdifft is released under the MIT license. See LICENSE for details.
