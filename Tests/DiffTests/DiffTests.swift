@@ -3,6 +3,12 @@ import XCTest
 
 class DiffTests: XCTestCase {
     func testMatrix() {
+        
+        let a = "abcd"
+        let b = "bx"
+        let diff = Diff(from: a, to: b)
+        
+        
         assert(
             Diff(from: "abcd", to: "acd").matrix == [
                 [0, 0, 0, 0],
