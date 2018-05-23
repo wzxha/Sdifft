@@ -1,5 +1,5 @@
 language: objective-c
 osx_image: xcode9.3
 script:
-  - xcodebuild -project Diff.xcodeproj -scheme Diff-Package -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.3' ONLY_ACTIVE_ARCH=YES  -enableCodeCoverage YES test
+  - xcodebuild -project Diff.xcodeproj -scheme Diff-Package -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' ONLY_ACTIVE_ARCH=YES  -enableCodeCoverage YES test
   - bash <(curl -s https://codecov.io/bash) -cF ios
