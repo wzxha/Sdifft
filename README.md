@@ -6,6 +6,10 @@
 Using the LCS to compare differences between two strings
 
 ## Example
+```
+impoort Sdifft
+```
+
 ```swift
 let to = "abcd"
 let from = "b"
