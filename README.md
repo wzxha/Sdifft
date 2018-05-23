@@ -32,7 +32,7 @@ Package.swift
 let package = Package(
     name: "XXX",
     dependencies: [
-        .Package(url: "https://github.com/Wzxhaha/Viscosity", majorVersion: 2)
+        .Package(url: "https://github.com/Wzxhaha/Diff", majorVersion: 1)
     ]
 )
 ```
