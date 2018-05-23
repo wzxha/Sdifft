@@ -141,9 +141,9 @@ public struct Modification {
     init(from: String, to: String, matrix: Matrix) {
         let same =
             lcs(from: from, to: to, position: (from.utf8.count, to.utf8.count), matrix: matrix, same: ([], []))
-        add = same.from.getChangeRanges(max: from.utf8.count - 1)
-        delete = same.to.getChangeRanges(max: to.utf8.count - 1)
-        self.same = same.from.getSameRanges()
+        add = same.to.getChangeRanges(max: to.utf8.count - 1)
+        delete = same.from.getChangeRanges(max: from.utf8.count - 1)
+        self.same = same.to.getSameRanges()
     }
 }
 

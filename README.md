@@ -6,18 +6,18 @@ Using the LCS to compare differences between two strings
 
 ## Example
 ```swift
-let a = "abcd"
-let b = "b"
-let diff = Diff(from: a, to: b)
+let to = "abcd"
+let from = "b"
+let diff = Diff(from: from, to: to)
 diff.modification.add // [0...0, 2...3]
 diff.modification.delete // []
 diff.modification.same // [1...1]
 ```
 
 ```swift
-let a = "abcd"
-let b = "bx"
-let diff = Diff(from: a, to: b)
+let to = "abcd"
+let from = "bx"
+let diff = Diff(from: from, to: to)
 diff.modification.add // [0...0, 2...3]
 diff.modification.delete // [1...1]
 diff.modification.same // [1...1]

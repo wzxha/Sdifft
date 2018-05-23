@@ -113,32 +113,46 @@ class DiffTests: XCTestCase {
                 0...10
             ]
         )
+        
+        let to1 = "abcd"
+        let from1 = "b"
+        let diff1 = Diff(from: from1, to: to1)
+        assert(diff1.modification.add == [0...0, 2...3])
+        assert(diff1.modification.delete == [])
+        assert(diff1.modification.same == [1...1])
+        
+        let to2 = "abcd"
+        let from2 = "bx"
+        let diff2 = Diff(from: from2, to: to2)
+        assert(diff2.modification.add == [0...0, 2...3])
+        assert(diff2.modification.delete == [1...1])
+        assert(diff2.modification.same == [1...1])
     }
     
     func testString1() {
-        let from = "abcdhijk"
-        let to = "bj"
+        let to = "abcdhijk"
+        let from = "bj"
         let diff = Diff(from: from, to: to)
         assert(
-            (from as NSString).substring(with: NSRange(diff.modification.add[0])) == "a" &&
-            (from as NSString).substring(with: NSRange(diff.modification.add[1])) == "cdhi" &&
-            (from as NSString).substring(with: NSRange(diff.modification.add[2])) == "k" &&
+            (to as NSString).substring(with: NSRange(diff.modification.add[0])) == "a" &&
+            (to as NSString).substring(with: NSRange(diff.modification.add[1])) == "cdhi" &&
+            (to as NSString).substring(with: NSRange(diff.modification.add[2])) == "k" &&
             diff.modification.delete.count == 0 &&
-            (from as NSString).substring(with: NSRange(diff.modification.same[0])) == "b" &&
-            (from as NSString).substring(with: NSRange(diff.modification.same[1])) == "j")
+            (to as NSString).substring(with: NSRange(diff.modification.same[0])) == "b" &&
+            (to as NSString).substring(with: NSRange(diff.modification.same[1])) == "j")
     }
     
     func testString2() {
-        let from = "abcdhijk"
-        let to = "bexj"
+        let to = "abcdhijk"
+        let from = "bexj"
         let diff = Diff(from: from, to: to)
         assert(
-            (from as NSString).substring(with: NSRange(diff.modification.add[0])) == "a" &&
-            (from as NSString).substring(with: NSRange(diff.modification.add[1])) == "cdhi" &&
-            (from as NSString).substring(with: NSRange(diff.modification.add[2])) == "k" &&
-            (to as NSString).substring(with: NSRange(diff.modification.delete[0])) == "ex" &&
-            (from as NSString).substring(with: NSRange(diff.modification.same[0])) == "b" &&
-            (from as NSString).substring(with: NSRange(diff.modification.same[1])) == "j"
+            (to as NSString).substring(with: NSRange(diff.modification.add[0])) == "a" &&
+            (to as NSString).substring(with: NSRange(diff.modification.add[1])) == "cdhi" &&
+            (to as NSString).substring(with: NSRange(diff.modification.add[2])) == "k" &&
+            (from as NSString).substring(with: NSRange(diff.modification.delete[0])) == "ex" &&
+            (to as NSString).substring(with: NSRange(diff.modification.same[0])) == "b" &&
+            (to as NSString).substring(with: NSRange(diff.modification.same[1])) == "j"
         )
     }
 
