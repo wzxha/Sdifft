@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Diff::Diff"
-               BuildableName = "Diff.framework"
-               BlueprintName = "Diff"
-               ReferencedContainer = "container:Diff.xcodeproj">
+               BlueprintIdentifier = "Sdifft::Sdifft"
+               BuildableName = "Sdifft.framework"
+               BlueprintName = "Sdifft"
+               ReferencedContainer = "container:Sdifft.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,10 +33,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Diff::DiffTests"
-               BuildableName = "DiffTests.xctest"
-               BlueprintName = "DiffTests"
-               ReferencedContainer = "container:Diff.xcodeproj">
+               BlueprintIdentifier = "Sdifft::SdifftTests"
+               BuildableName = "SdifftTests.xctest"
+               BlueprintName = "SdifftTests"
+               ReferencedContainer = "container:Sdifft.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,10 +56,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Diff::Diff"
-            BuildableName = "Diff.framework"
-            BlueprintName = "Diff"
-            ReferencedContainer = "container:Diff.xcodeproj">
+            BlueprintIdentifier = "Sdifft::Sdifft"
+            BuildableName = "Sdifft.framework"
+            BlueprintName = "Sdifft"
+            ReferencedContainer = "container:Sdifft.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

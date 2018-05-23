@@ -1,5 +1,5 @@
 import XCTest
-@testable import Diff
+@testable import Sdifft
 
 class DiffTests: XCTestCase {
     func testMatrix() {

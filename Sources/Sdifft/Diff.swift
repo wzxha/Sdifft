@@ -1,11 +1,11 @@
 //
 //  Diff.swift
-//  Diff
+//  Sdifft
 //
 //  Created by WzxJiang on 18/5/23.
 //  Copyright © 2018年 WzxJiang. All rights reserved.
 //
-//  https://github.com/Wzxhaha/Diff
+//  https://github.com/Wzxhaha/Sdifft
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
