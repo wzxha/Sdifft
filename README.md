@@ -3,7 +3,6 @@
 [![travis-ci](https://travis-ci.org/Wzxhaha/Diff.svg?branch=master)](https://travis-ci.org/Wzxhaha/Diff)
 [![codecov](https://codecov.io/gh/Wzxhaha/Diff/branch/master/graph/badge.svg)](https://codecov.io/gh/Wzxhaha/Diff)
 
-
 Using the LCS to compare differences between two strings
 
 ## Example
