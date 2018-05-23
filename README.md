@@ -1,7 +1,8 @@
 # Diff
 ![swift version](https://img.shields.io/badge/Language-Swift4-blue.svg)
 [![travis-ci](https://travis-ci.org/Wzxhaha/Diff.svg?branch=master)](https://travis-ci.org/Wzxhaha/Diff)
-[![Coverage Status](https://coveralls.io/repos/github/Wzxhaha/Diff/badge.svg?branch=master)](https://coveralls.io/github/Wzxhaha/Diff?branch=master)
+[![codecov](https://codecov.io/gh/Wzxhaha/Diff/branch/master/graph/badge.svg)](https://codecov.io/gh/Wzxhaha/Diff)
+
 
 Using the LCS to compare differences between two strings
 
