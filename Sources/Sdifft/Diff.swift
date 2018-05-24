@@ -44,8 +44,8 @@ typealias Matrix = [[Int]]
 ///   - to: string that be compared
 /// - Returns: matrix
 func drawMatrix(from: String, to: String) -> Matrix {
-    let row = from.utf8.count + 1
-    let column = to.utf8.count + 1
+    let row = from.count + 1
+    let column = to.count + 1
     var result: [[Int]] = Array(repeating: Array(repeating: 0, count: column), count: row)
     for i in 1..<row {
         for j in 1..<column {
@@ -140,9 +140,9 @@ public struct Modification {
     
     init(from: String, to: String, matrix: Matrix) {
         let same =
-            lcs(from: from, to: to, position: (from.utf8.count, to.utf8.count), matrix: matrix, same: ([], []))
-        add = same.to.getChangeRanges(max: to.utf8.count - 1)
-        delete = same.from.getChangeRanges(max: from.utf8.count - 1)
+            lcs(from: from, to: to, position: (from.count, to.count), matrix: matrix, same: ([], []))
+        add = same.to.getChangeRanges(max: to.count - 1)
+        delete = same.from.getChangeRanges(max: from.count - 1)
         self.same = same.to.getSameRanges()
     }
 }
