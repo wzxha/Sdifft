@@ -2,4 +2,4 @@ language: objective-c
 osx_image: xcode9.3
 script:
   - xcodebuild -project Sdifft.xcodeproj -scheme Sdifft-Package -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' -configuration Release ONLY_ACTIVE_ARCH=YES  -enableCodeCoverage YES test
-  - bash <(curl -s https://codecov.io/bash) -cF ios -X fix
+  - bash <(curl -s https://codecov.io/bash) -cF ios -X fix --verbose
