@@ -33,8 +33,8 @@ diff.modification.same // [1...1]
 
 ### Swift Package Manager
 
-Package.swift
 ```swift
+// Package.swift
 let package = Package(
     name: "XXX",
     dependencies: [
@@ -45,8 +45,8 @@ let package = Package(
 
 ### Carthage
 
-Cartfile
 ```
+// Cartfile
 github "Wzxhaha/Sdifft"
 ```
 
