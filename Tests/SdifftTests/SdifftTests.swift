@@ -1,6 +1,14 @@
 import XCTest
 @testable import Sdifft
 
+extension String {
+    subscript(_ range: CountableClosedRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(startIndex, offsetBy: range.upperBound)
+        return String(self[start...end])
+    }
+}
+
 class DiffTests: XCTestCase {
     func testMatrix() {
         assert(
@@ -127,6 +135,13 @@ class DiffTests: XCTestCase {
         assert(diff2.modification.add == [0...0, 2...3])
         assert(diff2.modification.delete == [1...1])
         assert(diff2.modification.same == [1...1])
+        
+        let to3 = "A\r\nB\r\nC"
+        let from3 = "A\r\n\r\nB\r\n\r\nC"
+        let diff3 = Diff(from: from3, to: to3)
+        assert(diff3.modification.add == [])
+        assert(diff3.modification.delete == [1...1, 4...4])
+        assert(diff3.modification.same == [0...0, 2...3, 5...6])
     }
     
     func testString1() {
@@ -134,12 +149,12 @@ class DiffTests: XCTestCase {
         let from = "bj"
         let diff = Diff(from: from, to: to)
         assert(
-            (to as NSString).substring(with: NSRange(diff.modification.add[0])) == "a" &&
-            (to as NSString).substring(with: NSRange(diff.modification.add[1])) == "cdhi" &&
-            (to as NSString).substring(with: NSRange(diff.modification.add[2])) == "k" &&
+            to[diff.modification.add[0]] == "a" &&
+            to[diff.modification.add[1]] == "cdhi" &&
+            to[diff.modification.add[2]] == "k" &&
             diff.modification.delete.count == 0 &&
-            (to as NSString).substring(with: NSRange(diff.modification.same[0])) == "b" &&
-            (to as NSString).substring(with: NSRange(diff.modification.same[1])) == "j")
+            to[diff.modification.same[0]] == "b" &&
+            to[diff.modification.same[1]] == "j")
     }
     
     func testString2() {
@@ -147,12 +162,12 @@ class DiffTests: XCTestCase {
         let from = "bexj"
         let diff = Diff(from: from, to: to)
         assert(
-            (to as NSString).substring(with: NSRange(diff.modification.add[0])) == "a" &&
-            (to as NSString).substring(with: NSRange(diff.modification.add[1])) == "cdhi" &&
-            (to as NSString).substring(with: NSRange(diff.modification.add[2])) == "k" &&
-            (from as NSString).substring(with: NSRange(diff.modification.delete[0])) == "ex" &&
-            (to as NSString).substring(with: NSRange(diff.modification.same[0])) == "b" &&
-            (to as NSString).substring(with: NSRange(diff.modification.same[1])) == "j"
+            to[diff.modification.add[0]] == "a" &&
+            to[diff.modification.add[1]] == "cdhi" &&
+            to[diff.modification.add[2]] == "k" &&
+            from[diff.modification.delete[0]] == "ex" &&
+            to[diff.modification.same[0]] == "b" &&
+            to[diff.modification.same[1]] == "j"
         )
     }
 

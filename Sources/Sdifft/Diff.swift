@@ -134,16 +134,28 @@ extension Array where Element == Int {
 }
 
 public struct Modification {
+    public enum Base {
+        case from
+        case to
+    }
+    
     public let add: [CountableClosedRange<Int>]
     public let delete: [CountableClosedRange<Int>]
     public let same: [CountableClosedRange<Int>]
+    public let base: Base
     
     init(from: String, to: String, matrix: Matrix) {
         let same =
             lcs(from: from, to: to, position: (from.count, to.count), matrix: matrix, same: ([], []))
         add = same.to.getChangeRanges(max: to.count - 1)
         delete = same.from.getChangeRanges(max: from.count - 1)
-        self.same = same.to.getSameRanges()
+        if add.isEmpty {
+            base = .from
+            self.same = same.from.getSameRanges()
+        } else {
+            base = .to
+            self.same = same.to.getSameRanges()
+        }
     }
 }
 
