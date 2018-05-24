@@ -45,7 +45,7 @@ let package = Package(
 
 ### Carthage
 
-```
+```swift
 // Cartfile
 github "Wzxhaha/Sdifft"
 ```
