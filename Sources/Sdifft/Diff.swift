@@ -49,10 +49,10 @@ func drawMatrix(from: String, to: String) -> Matrix {
     var result: [[Int]] = Array(repeating: Array(repeating: 0, count: column), count: row)
     for i in 1..<row {
         for j in 1..<column {
-            if from[i-1] == to[j-1] {
-                result[i][j] = result[i-1][j-1] + 1
+            if from[i - 1] == to[j - 1] {
+                result[i][j] = result[i - 1][j - 1] + 1
             } else {
-                result[i][j] = max(result[i][j-1], result[i-1][j])
+                result[i][j] = max(result[i][j - 1], result[i - 1][j])
             }
         }
     }
@@ -72,11 +72,11 @@ typealias Position = (row: Int, column: Int)
 /// - Returns: same character's indexes
 func lcs(from: String, to: String, position: Position, matrix: Matrix, same: (from: [Int], to: [Int])) -> (from: [Int], to: [Int]) {
     if position.row == 0 || position.column == 0 {
-        return (same.from.reversed(), same.to.reversed())
+        return same
     }
-    if from[position.row-1] == to[position.column-1] {
+    if from[position.row - 1] == to[position.column - 1] {
         return lcs(from: from, to: to, position: (position.row - 1, position.column - 1), matrix: matrix, same: (same.from + [position.row - 1], same.to + [position.column - 1]))
-    } else if matrix[position.row-1][position.column] >= matrix[position.row][position.column-1] {
+    } else if matrix[position.row - 1][position.column] >= matrix[position.row][position.column - 1] {
         return lcs(from: from, to: to, position: (position.row - 1, position.column), matrix: matrix, same: same)
     } else {
         return lcs(from: from, to: to, position: (position.row, position.column - 1), matrix: matrix, same: same)
@@ -144,9 +144,25 @@ public struct Modification {
     public let same: [CountableClosedRange<Int>]
     public let base: Base
     
-    init(from: String, to: String, matrix: Matrix) {
-        let same =
+    
+    /// Return modification with strings
+    ///
+    /// - Parameters:
+    ///   - from: string
+    ///   - to: string that be compared
+    ///   - matrix: matrix
+    ///   - isReversed: from and to is reversed
+    init(from: String, to: String, matrix: Matrix, isReversed: Bool) {
+        var same =
             lcs(from: from, to: to, position: (from.count, to.count), matrix: matrix, same: ([], []))
+        
+        if isReversed {
+            same = (
+                same.from.map({ from.count - 1 - $0 }),
+                same.to.map({ to.count - 1 - $0 })
+            )
+        }
+        
         add = same.to.getChangeRanges(max: to.count - 1)
         delete = same.from.getChangeRanges(max: from.count - 1)
         if add.isEmpty {
@@ -160,15 +176,15 @@ public struct Modification {
 }
 
 public struct Diff {
-    public let from: String
-    public let to: String
     public let modification: Modification
     let matrix: Matrix
     
     public init(from: String, to: String) {
-        self.from = from
-        self.to = to
-        matrix = drawMatrix(from: from, to: to)
-        modification = Modification(from: from, to: to, matrix: matrix)
+        // because LCS is 'bottom-up'
+        // so them need be reversed to get the normal sequence
+        let reversedFrom = String(from.reversed())
+        let reversedTo = String(to.reversed())
+        matrix = drawMatrix(from: reversedFrom, to: reversedTo)
+        modification = Modification(from: reversedFrom, to: reversedTo, matrix: matrix, isReversed: true)
     }
 }

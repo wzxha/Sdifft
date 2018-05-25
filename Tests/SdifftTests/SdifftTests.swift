@@ -12,7 +12,7 @@ extension String {
 class DiffTests: XCTestCase {
     func testMatrix() {
         assert(
-            Diff(from: "abcd", to: "acd").matrix == [
+            drawMatrix(from: "abcd", to: "acd") == [
                 [0, 0, 0, 0],
                 [0, 1, 1, 1],
                 [0, 1, 1, 1],
@@ -22,7 +22,7 @@ class DiffTests: XCTestCase {
         )
         
         assert(
-            Diff(from: "abcdegh", to: "ae").matrix == [
+            drawMatrix(from: "abcdegh", to: "ae") == [
                 [0, 0, 0],
                 [0, 1, 1],
                 [0, 1, 1],
@@ -35,7 +35,7 @@ class DiffTests: XCTestCase {
         )
         
         assert(
-            Diff(from: "adf", to: "d").matrix == [
+            drawMatrix(from: "adf", to: "d") == [
                 [0, 0],
                 [0, 0],
                 [0, 1],
@@ -44,14 +44,14 @@ class DiffTests: XCTestCase {
         )
         
         assert(
-            Diff(from: "d", to: "adf").matrix == [
+            drawMatrix(from: "d", to: "adf") == [
                 [0, 0, 0, 0],
                 [0, 0, 1, 1]
             ]
         )
         
         assert(
-            Diff(from: "", to: "").matrix == [
+             drawMatrix(from: "", to: "") == [
                 [0],
             ]
         )
@@ -140,8 +140,8 @@ class DiffTests: XCTestCase {
         let from3 = "A\r\n\r\nB\r\n\r\nC"
         let diff3 = Diff(from: from3, to: to3)
         assert(diff3.modification.add == [])
-        assert(diff3.modification.delete == [1...1, 4...4])
-        assert(diff3.modification.same == [0...0, 2...3, 5...6])
+        assert(diff3.modification.delete == [2...2, 5...5])
+        assert(diff3.modification.same == [0...1, 3...4, 6...6])
     }
     
     func testString1() {
@@ -170,6 +170,19 @@ class DiffTests: XCTestCase {
             to[diff.modification.same[1]] == "j"
         )
     }
+    
+    func testString3() {
+        let to = "A\r\nB\r\nC"
+        let from = "A\r\n\r\nB\r\n\r\nC"
+        let diff = Diff(from: from, to: to)
+        assert(
+            diff.modification.add.count == 0 &&
+            from[diff.modification.delete[0]] == "\r\n" &&
+            (diff.modification.base == .to ? to[diff.modification.same[0]]: from[diff.modification.same[0]]) == "A\r\n" &&
+            (diff.modification.base == .to ? to[diff.modification.same[1]]: from[diff.modification.same[1]]) == "B\r\n" &&
+            (diff.modification.base == .to ? to[diff.modification.same[2]]: from[diff.modification.same[2]]) == "C"
+        )
+    }
 
     func testTime() {
         // 1000 character * 1000 character: 3.681s
@@ -187,6 +200,7 @@ class DiffTests: XCTestCase {
         ("testRange", testRange),
         ("testString1", testString1),
         ("testString2", testString2),
+        ("testString3", testString3),
         ("testTime", testTime)
     ]
 }
