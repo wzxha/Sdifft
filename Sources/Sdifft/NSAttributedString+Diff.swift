@@ -28,9 +28,9 @@
 import Foundation
 
 public struct DiffAttributes {
-    let add: [NSAttributedStringKey: Any]
-    let delete: [NSAttributedStringKey: Any]
-    let same: [NSAttributedStringKey: Any]
+    public let add: [NSAttributedStringKey: Any]
+    public let delete: [NSAttributedStringKey: Any]
+    public let same: [NSAttributedStringKey: Any]
 }
 
 extension NSAttributedString {
