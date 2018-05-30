@@ -7,26 +7,23 @@
 Using the LCS to compare differences between two strings
 
 ## Example
-```
-impoort Sdifft
-```
 
 ```swift
+impoort Sdifft
+
 let to = "abcd"
 let from = "b"
 let diff = Diff(from: from, to: to)
-diff.modification.add // [0...0, 2...3]
-diff.modification.delete // []
-diff.modification.same // [1...1]
-```
+/// Get diff modifications
+diff.modifications // [(add: "a", delete: nil, same: "b"), (add: "cd", delete: nil, same: nil)]
 
-```swift
-let to = "abcd"
-let from = "bx"
-let diff = Diff(from: from, to: to)
-diff.modification.add // [0...0, 2...3]
-diff.modification.delete // [1...1]
-diff.modification.same // [1...1]
+/// Get same/add/delete
+let same = diff.modifications.compactMap { $0.same }
+...
+
+/// Get diff attributedString
+let diffAttributes = DiffAttributes(add: [.backgroundColor: UIColor.green]], delete: [.backgroundColor: UIColor.red], same: [.backgroundColor: UIColor.white])
+let attributedString = NSAttributedString.attributedString(with: diff, attributes: diffAttributes) 
 ```
 
 ## Installation
