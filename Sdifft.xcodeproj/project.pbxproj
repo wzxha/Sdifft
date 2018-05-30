@@ -21,9 +21,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1EB1AD2720BD5E22004D0450 /* NSAttributedString+Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB1AD2620BD5E22004D0450 /* NSAttributedString+Diff.swift */; };
+		1EB1AD2920BD640B004D0450 /* NSAttributedString+DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB1AD2820BD640B004D0450 /* NSAttributedString+DiffTests.swift */; };
 		OBJ_21 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Diff.swift */; };
 		OBJ_28 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_39 /* SdifftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* SdifftTests.swift */; };
+		OBJ_39 /* DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* DiffTests.swift */; };
 		OBJ_41 /* Sdifft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Sdifft::Sdifft::Product" /* Sdifft.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		OBJ_12 /* SdifftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SdifftTests.swift; sourceTree = "<group>"; };
+		1EB1AD2620BD5E22004D0450 /* NSAttributedString+Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Diff.swift"; sourceTree = "<group>"; };
+		1EB1AD2820BD640B004D0450 /* NSAttributedString+DiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+DiffTests.swift"; sourceTree = "<group>"; };
+		OBJ_12 /* DiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		"Sdifft::Sdifft::Product" /* Sdifft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sdifft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,7 +86,8 @@
 		OBJ_11 /* SdifftTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_12 /* SdifftTests.swift */,
+				OBJ_12 /* DiffTests.swift */,
+				1EB1AD2820BD640B004D0450 /* NSAttributedString+DiffTests.swift */,
 			);
 			name = SdifftTests;
 			path = Tests/SdifftTests;
@@ -97,7 +102,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -105,7 +110,6 @@
 				OBJ_10 /* Tests */,
 				OBJ_13 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -120,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* Diff.swift */,
+				1EB1AD2620BD5E22004D0450 /* NSAttributedString+Diff.swift */,
 			);
 			name = Sdifft;
 			path = Sources/Sdifft;
@@ -190,7 +195,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -208,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				1EB1AD2720BD5E22004D0450 /* NSAttributedString+Diff.swift in Sources */,
 				OBJ_21 /* Diff.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,7 +230,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_39 /* SdifftTests.swift in Sources */,
+				1EB1AD2920BD640B004D0450 /* NSAttributedString+DiffTests.swift in Sources */,
+				OBJ_39 /* DiffTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

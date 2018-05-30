@@ -25,7 +25,6 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
 extension String {
     /// Return character in string
     ///
@@ -60,6 +59,7 @@ func drawMatrix(from: String, to: String) -> Matrix {
 }
 
 typealias Position = (row: Int, column: Int)
+typealias DiffIndex = (from: Int, to: Int)
 
 /// LCS
 ///
@@ -70,12 +70,12 @@ typealias Position = (row: Int, column: Int)
 ///   - matrix: matrix
 ///   - same: same character's indexes
 /// - Returns: same character's indexes
-func lcs(from: String, to: String, position: Position, matrix: Matrix, same: (from: [Int], to: [Int])) -> (from: [Int], to: [Int]) {
+func lcs(from: String, to: String, position: Position, matrix: Matrix, same: [DiffIndex]) -> [DiffIndex] {
     if position.row == 0 || position.column == 0 {
         return same
     }
     if from[position.row - 1] == to[position.column - 1] {
-        return lcs(from: from, to: to, position: (position.row - 1, position.column - 1), matrix: matrix, same: (same.from + [position.row - 1], same.to + [position.column - 1]))
+        return lcs(from: from, to: to, position: (position.row - 1, position.column - 1), matrix: matrix, same: same + [(position.row - 1, position.column - 1)])
     } else if matrix[position.row - 1][position.column] >= matrix[position.row][position.column - 1] {
         return lcs(from: from, to: to, position: (position.row - 1, position.column), matrix: matrix, same: same)
     } else {
@@ -83,108 +83,67 @@ func lcs(from: String, to: String, position: Position, matrix: Matrix, same: (fr
     }
 }
 
-extension Array where Element == Int {
-    /// Get [Range<Int>] with [Int]
-    /// - example: [0, 3, 4] -> [0...0, 3...4]
-    func getSameRanges() -> [CountableClosedRange<Int>] {
-        var ranges: [CountableClosedRange<Int>] = []
-        var begin = first ?? 0
-        enumerated().forEach { (idx, current) in
-            guard count > idx + 1 else {
-                ranges.append(begin...current)
-                return
-            }
-            
-            let next = self[idx + 1]
-            if next - current != 1 {
-                ranges.append(begin...current)
-                begin = next
-            }
-        }
-        return ranges
-    }
-    
-    /// Get [Range<Int>] with [Int]
-    /// - example: [0, 3, 4] -> [1...2]
-    func getChangeRanges(max: Int) -> [CountableClosedRange<Int>] {
-        if count == 0, max >= 0 {
-            return [0...max]
-        }
-        var ranges: [CountableClosedRange<Int>] = []
-        var begin = first ?? 0
-        if begin != 0 {
-            ranges.append(0...(begin - 1))
-        }
-        enumerated().forEach { (idx, current) in
-            guard count > idx + 1 else {
-                if current != max {
-                    ranges.append((current + 1)...max)
-                }
-                return
-            }
+public struct Modification {
+    public let add: String?
+    public let delete: String?
+    public let same: String?
+}
 
-            let next = self[idx + 1]
-            if next - current != 1 {
-                ranges.append((current + 1)...(next - 1))
-            }
-            begin = next
-        }
-        return ranges
+extension String {
+    /// Return string with range
+    ///
+    /// - Parameter range: range
+    subscript(_ range: CountableClosedRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(startIndex, offsetBy: range.upperBound)
+        return String(self[start...end])
     }
 }
 
-public struct Modification {
-    public enum Base {
-        case from
-        case to
-    }
-    
-    public let add: [CountableClosedRange<Int>]
-    public let delete: [CountableClosedRange<Int>]
-    public let same: [CountableClosedRange<Int>]
-    public let base: Base
-    
-    
-    /// Return modification with strings
-    ///
-    /// - Parameters:
-    ///   - from: string
-    ///   - to: string that be compared
-    ///   - matrix: matrix
-    ///   - isReversed: from and to is reversed
-    init(from: String, to: String, matrix: Matrix, isReversed: Bool) {
-        var same =
-            lcs(from: from, to: to, position: (from.count, to.count), matrix: matrix, same: ([], []))
-        
-        if isReversed {
-            same = (
-                same.from.map({ from.count - 1 - $0 }),
-                same.to.map({ to.count - 1 - $0 })
+extension Array where Element == DiffIndex {
+    func modifications(from: String, to: String) -> [Modification] {
+        var modifications: [Modification] = []
+        var lastFrom = 0
+        var lastTo = 0
+        modifications += map {
+            let modification =
+                Modification(
+                    add: lastTo <= $0.to - 1 ? to[lastTo...$0.to - 1] : nil,
+                    delete: lastFrom <= $0.from - 1 ? from[lastFrom...$0.from - 1] : nil,
+                    same: to[$0.to...$0.to]
+            )
+            lastFrom = $0.from + 1
+            lastTo = $0.to + 1
+            return modification
+        }
+        if lastFrom <= from.count - 1 || lastTo <= to.count - 1 {
+            modifications.append(
+                Modification(
+                    add: lastTo <= to.count - 1 ? to[lastTo...to.count - 1] : nil,
+                    delete: lastFrom <= from.count - 1 ? from[lastFrom...from.count - 1] : nil,
+                    same: nil
+                )
             )
         }
-        
-        add = same.to.getChangeRanges(max: to.count - 1)
-        delete = same.from.getChangeRanges(max: from.count - 1)
-        if add.isEmpty {
-            base = .from
-            self.same = same.from.getSameRanges()
-        } else {
-            base = .to
-            self.same = same.to.getSameRanges()
-        }
+        return modifications
     }
 }
 
 public struct Diff {
-    public let modification: Modification
+    public let modifications: [Modification]
     let matrix: Matrix
-    
+    let from: String
+    let to: String
     public init(from: String, to: String) {
         // because LCS is 'bottom-up'
         // so them need be reversed to get the normal sequence
+        self.from = from
+        self.to = to
         let reversedFrom = String(from.reversed())
         let reversedTo = String(to.reversed())
         matrix = drawMatrix(from: reversedFrom, to: reversedTo)
-        modification = Modification(from: reversedFrom, to: reversedTo, matrix: matrix, isReversed: true)
+        var same = lcs(from: reversedFrom, to: reversedTo, position: (from.count, to.count), matrix: matrix, same: [])
+        same = same.map({ (from.count - 1 - $0, to.count - 1 - $1) })
+        modifications = same.modifications(from: from, to: to)
     }
 }
