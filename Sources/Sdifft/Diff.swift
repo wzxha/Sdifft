@@ -36,6 +36,7 @@ extension String {
 
 typealias Matrix = [[Int]]
 
+// swiftlint:disable identifier_name
 /// Draw LCS matrix with two strings
 ///
 /// - Parameters:
@@ -61,6 +62,7 @@ func drawMatrix(from: String, to: String) -> Matrix {
 typealias Position = (row: Int, column: Int)
 typealias DiffIndex = (from: Int, to: Int)
 
+// swiftlint:disable line_length
 /// LCS
 ///
 /// - Parameters:

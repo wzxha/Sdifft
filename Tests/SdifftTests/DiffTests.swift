@@ -5,11 +5,9 @@ extension Array where Element == Modification {
     var sames: [String] {
         return compactMap { $0.same }
     }
-    
     var adds: [String] {
         return compactMap { $0.add }
     }
-    
     var deletes: [String] {
         return compactMap { $0.delete }
     }
@@ -26,7 +24,6 @@ class DiffTests: XCTestCase {
                 [0, 1, 2, 3]
             ]
         )
-        
         assert(
             drawMatrix(from: "abcdegh", to: "ae") == [
                 [0, 0, 0],
@@ -39,26 +36,23 @@ class DiffTests: XCTestCase {
                 [0, 1, 2]
             ]
         )
-        
         assert(
             drawMatrix(from: "adf", to: "d") == [
                 [0, 0],
                 [0, 0],
                 [0, 1],
-                [0, 1],
+                [0, 1]
             ]
         )
-        
         assert(
             drawMatrix(from: "d", to: "adf") == [
                 [0, 0, 0, 0],
                 [0, 0, 1, 1]
             ]
         )
-        
         assert(
              drawMatrix(from: "", to: "") == [
-                [0],
+                [0]
             ]
         )
     }
@@ -67,16 +61,14 @@ class DiffTests: XCTestCase {
         assert(
             "abc"[0] == "a"
         )
-        
         assert(
             "abc"[1] == "b"
         )
-        
         assert(
             "abc"[2] == "c"
         )
     }
-    
+
     func testModification() {
         let to1 = "abcd"
         let from1 = "b"
@@ -86,7 +78,6 @@ class DiffTests: XCTestCase {
             diff1.modifications.adds == ["a", "cd"] &&
             diff1.modifications.deletes == []
         )
-        
         let to2 = "abcd"
         let from2 = "bx"
         let diff2 = Diff(from: from2, to: to2)
@@ -95,7 +86,6 @@ class DiffTests: XCTestCase {
             diff2.modifications.adds == ["a", "cd"] &&
             diff2.modifications.deletes == ["x"]
         )
-        
         let to3 = "A\r\nB\r\nC"
         let from3 = "A\r\n\r\nB\r\n\r\nC"
         let diff3 = Diff(from: from3, to: to3)
@@ -106,17 +96,18 @@ class DiffTests: XCTestCase {
         )
     }
 
+    // swiftlint:disable line_length
     func testTime() {
-//         1000 character * 1000 character: 3.540s
+        // 1000 character * 1000 character: 3.540s
         measure {
-            let _ =
+            _ =
             Diff(
                 from: "abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkbexjabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk123abcdhijkabcdhijkabcdhijkabcdhijk12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123",
                 to: "abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk"
             )
         }
     }
-    
+
     static var allTests = [
         ("testMatrix", testMatrix),
         ("testStringRange", testStringRange),

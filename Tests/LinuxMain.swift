@@ -3,4 +3,5 @@ import XCTest
 
 XCTMain([
     testCase(DiffTests.allTests),
+    testCase(NSAttributedStringDiffTests.allTests)
 ])

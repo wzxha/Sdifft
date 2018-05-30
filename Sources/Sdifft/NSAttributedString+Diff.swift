@@ -31,7 +31,7 @@ public struct DiffAttributes {
     public let add: [NSAttributedStringKey: Any]
     public let delete: [NSAttributedStringKey: Any]
     public let same: [NSAttributedStringKey: Any]
-    
+    // swiftlint:disable line_length
     public init(add: [NSAttributedStringKey: Any], delete: [NSAttributedStringKey: Any], same: [NSAttributedStringKey: Any]) {
         self.add = add
         self.delete = delete
