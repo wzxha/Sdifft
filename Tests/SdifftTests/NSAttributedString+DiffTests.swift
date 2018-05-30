@@ -1,6 +1,12 @@
 import XCTest
-import Foundation
 @testable import Sdifft
+#if os(OSX)
+import AppKit
+typealias Color = NSColor
+#elseif os(iOS)
+import UIKit
+typealias Color = UIColor
+#endif
 
 extension CGColor: CustomStringConvertible {
     public var description: String {
@@ -30,7 +36,7 @@ extension NSAttributedString {
 class NSAttributedStringDiffTests: XCTestCase {
     // swiftlint:disable line_length
     func testAttributedString() {
-        let diffAttributes = DiffAttributes(add: [.backgroundColor: NSColor.green], delete: [.backgroundColor: NSColor.red], same: [.backgroundColor: NSColor.black])
+        let diffAttributes = DiffAttributes(add: [.backgroundColor: Color.green], delete: [.backgroundColor: Color.red], same: [.backgroundColor: Color.black])
         let to1 = "abcdhijk"
         let from1 = "bexj"
         let diff1 = Diff(from: from1, to: to1)
