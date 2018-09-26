@@ -28,11 +28,11 @@
 import Foundation
 
 public struct DiffAttributes {
-    public let add: [NSAttributedStringKey: Any]
-    public let delete: [NSAttributedStringKey: Any]
-    public let same: [NSAttributedStringKey: Any]
+    public let add: [NSAttributedString.Key: Any]
+    public let delete: [NSAttributedString.Key: Any]
+    public let same: [NSAttributedString.Key: Any]
     // swiftlint:disable line_length
-    public init(add: [NSAttributedStringKey: Any], delete: [NSAttributedStringKey: Any], same: [NSAttributedStringKey: Any]) {
+    public init(add: [NSAttributedString.Key: Any], delete: [NSAttributedString.Key: Any], same: [NSAttributedString.Key: Any]) {
         self.add = add
         self.delete = delete
         self.same = same

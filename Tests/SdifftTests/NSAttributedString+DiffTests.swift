@@ -26,7 +26,7 @@ extension NSAttributedString {
     open override var description: String {
         var description = ""
         enumerateAttributes(in: NSRange(location: 0, length: string.count), options: .longestEffectiveRangeNotRequired) { (attributes, range, _) in
-            let color = attributes[NSAttributedStringKey.backgroundColor] as? Color ?? Color.black
+            let color = attributes[NSAttributedString.Key.backgroundColor] as? Color ?? Color.black
             description += string[range.location...range.location + range.length - 1] + color.cgColor.description
         }
         return description

@@ -53,7 +53,7 @@
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		"Sdifft::Sdifft::Product" /* Sdifft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sdifft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Sdifft::SdifftTests::Product" /* SdifftTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SdifftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Sdifft::SdifftTests::Product" /* SdifftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = SdifftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +188,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"Sdifft::SdifftTests" = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Sdifft" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -288,7 +293,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = Sdifft;
 			};
 			name = Debug;
@@ -313,7 +318,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = Sdifft;
 			};
 			name = Release;
@@ -385,7 +390,7 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = SdifftTests;
 			};
 			name = Debug;
@@ -404,7 +409,7 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGET_NAME = SdifftTests;
 			};
 			name = Release;
