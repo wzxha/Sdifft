@@ -51,6 +51,20 @@ class NSAttributedStringDiffTests: XCTestCase {
         assert(
             attributedString2.debugDescription == "a{red}b{black}ex{green}cdhi{red}j{black}k{red}"
         )
+        let to3 = ["bexj", "abc", "c"]
+        let from3 = ["abcdhijk"]
+        let diff3 = Diff(from: from3, to: to3)
+        let attributedString3 = NSAttributedString.attributedString(with: diff3, attributes: diffAttributes)
+        assert(
+            attributedString3.debugDescription == "bexjabcc{green}abcdhijk{red}"
+        )
+        let to4 = ["bexj", "abc", "c", "abc"]
+        let from4 = ["abcdhijk", "abc"]
+        let diff4 = Diff(from: from4, to: to4)
+        let attributedString4 = NSAttributedString.attributedString(with: diff4, attributes: diffAttributes)
+        assert(
+            attributedString4.debugDescription == "bexj{green}abcdhijk{red}abc{black}cabc{green}"
+        )
     }
 
     static var allTests = [

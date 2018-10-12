@@ -1,7 +1,16 @@
 import XCTest
 @testable import Sdifft
 
-extension Array where Element == Modification {
+extension String {
+    subscript(idx: Int) -> String {
+        return index(of: idx)
+    }
+    subscript(range: CountableClosedRange<Int>) -> String {
+        return element(withRange: range)
+    }
+}
+
+extension Array where Element == Modification<String> {
     var sames: [String] {
         return compactMap { $0.same }
     }
@@ -9,6 +18,18 @@ extension Array where Element == Modification {
         return compactMap { $0.add }
     }
     var deletes: [String] {
+        return compactMap { $0.delete }
+    }
+}
+
+extension Array where Element == Modification<[String]> {
+    var sames: [[String]] {
+        return compactMap { $0.same }
+    }
+    var adds: [[String]] {
+        return compactMap { $0.add }
+    }
+    var deletes: [[String]] {
         return compactMap { $0.delete }
     }
 }
@@ -93,6 +114,14 @@ class DiffTests: XCTestCase {
             diff3.modifications.sames == ["A", "\r\n", "B", "\r\n", "C"] &&
             diff3.modifications.adds == [] &&
             diff3.modifications.deletes == ["\r\n", "\r\n"]
+        )
+        let to4 = ["a", "bc", "d", "c"]
+        let from4 = ["d"]
+        let diff4 = Diff(from: from4, to: to4)
+        assert(
+            diff4.modifications.sames == [["d"]] &&
+            diff4.modifications.adds == [["a", "bc"], ["c"]] &&
+            diff4.modifications.deletes == []
         )
     }
 

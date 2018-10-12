@@ -28,9 +28,7 @@
 import Foundation
 
 public struct DiffAttributes {
-    public let add: [NSAttributedString.Key: Any]
-    public let delete: [NSAttributedString.Key: Any]
-    public let same: [NSAttributedString.Key: Any]
+    public let add, delete, same: [NSAttributedString.Key: Any]
     // swiftlint:disable line_length
     public init(add: [NSAttributedString.Key: Any], delete: [NSAttributedString.Key: Any], same: [NSAttributedString.Key: Any]) {
         self.add = add
@@ -46,7 +44,7 @@ extension NSAttributedString {
     ///   - diff: Diff
     ///   - attributes: DiffAttributes
     /// - Returns: NSAttributedString
-    public static func attributedString(with diff: Diff, attributes: DiffAttributes) -> NSAttributedString {
+    public static func attributedString(with diff: Diff<String>, attributes: DiffAttributes) -> NSAttributedString {
         let attributedString = NSMutableAttributedString()
         diff.modifications.forEach {
             if let add = $0.add {
@@ -57,6 +55,21 @@ extension NSAttributedString {
             }
             if let same = $0.same {
                 attributedString.append(NSAttributedString(string: same, attributes: attributes.same))
+            }
+        }
+        return attributedString
+    }
+    public static func attributedString(with diff: Diff<[String]>, attributes: DiffAttributes) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString()
+        diff.modifications.forEach {
+            if let add = $0.add {
+                attributedString.append(NSAttributedString(string: add.joined(), attributes: attributes.add))
+            }
+            if let delete = $0.delete {
+                attributedString.append(NSAttributedString(string: delete.joined(), attributes: attributes.delete))
+            }
+            if let same = $0.same {
+                attributedString.append(NSAttributedString(string: same.joined(), attributes: attributes.same))
             }
         }
         return attributedString
