@@ -4,26 +4,56 @@
 [![codecov](https://codecov.io/gh/Wzxhaha/Sdifft/branch/master/graph/badge.svg)](https://codecov.io/gh/Wzxhaha/Sdifft)
 [![codebeat badge](https://codebeat.co/badges/d37a19b5-3d38-45ae-a7c5-5e453826188d)](https://codebeat.co/projects/github-com-wzxhaha-sdifft-master)
 
-Using the LCS to compare differences between two strings
+Using [`the Myers's Difference Algorithm`](http://www.xmailserver.org/diff2.pdf) to compare differences between two equatable element
 
-## Example
+## Example(String)
 
 ```swift
 impoort Sdifft
 
-let to = "abcd"
-let from = "b"
-let diff = Diff(from: from, to: to)
-/// Get diff modifications
-diff.modifications // [(add: "a", delete: nil, same: "b"), (add: "cd", delete: nil, same: nil)]
-
-/// Get same/add/delete
-let same = diff.modifications.compactMap { $0.same }
-...
+let source = "b"
+let target = "abcd"
+let diff = Diff(source: from, target: to)
+diff.scripts // [.insert(into: 3), .insert(into: 2), .same(into: 1), .insert(into: 0)]
 
 /// Get diff attributedString
-let diffAttributes = DiffAttributes(add: [.backgroundColor: UIColor.green]], delete: [.backgroundColor: UIColor.red], same: [.backgroundColor: UIColor.white])
-let attributedString = NSAttributedString.attributedString(with: diff, attributes: diffAttributes) 
+let diffAttributes = 
+    DiffAttributes(
+        insert: [.backgroundColor: UIColor.green]], 
+        delete: [.backgroundColor: UIColor.red], 
+        same: [.backgroundColor: UIColor.white]
+    )
+let attributedString = NSAttributedString(source: source, target: target, attributes: diffAttributes) 
+
+// output ->
+// a{green}b{black}cd{green}
+```
+
+## Example(Line)
+
+```swift
+impoort Sdifft
+let source = ["Hello"]
+let target = ["Hello", "World", "!"]
+let attributedString = 
+    NSAttributedString(source: source, target: target, attributes: diffAttributes) {
+        let string = NSMutableAttributedString(attributedString: string)
+        string.append(NSAttributedString(string: "\n"))
+        switch script {
+        case .delete:
+            string.insert(NSAttributedString(string: "- "), at: 0)
+        case .insert:
+            string.insert(NSAttributedString(string: "+ "), at: 0)
+        case .same:
+            string.insert(NSAttributedString(string: " "), at: 0)
+        }
+        return string
+    }
+
+// output ->
+//    Hello 
+//  + World{green}
+//  + !{green}
 ```
 
 ## Installation

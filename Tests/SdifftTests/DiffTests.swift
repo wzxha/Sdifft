@@ -1,146 +1,60 @@
 import XCTest
 @testable import Sdifft
 
-extension String {
-    subscript(idx: Int) -> String {
-        return index(of: idx)
-    }
-    subscript(range: CountableClosedRange<Int>) -> String {
-        return element(withRange: range)
-    }
-}
-
-extension Array where Element == Modification<String> {
-    var sames: [String] {
-        return compactMap { $0.same }
-    }
-    var adds: [String] {
-        return compactMap { $0.add }
-    }
-    var deletes: [String] {
-        return compactMap { $0.delete }
-    }
-}
-
-extension Array where Element == Modification<[String]> {
-    var sames: [[String]] {
-        return compactMap { $0.same }
-    }
-    var adds: [[String]] {
-        return compactMap { $0.add }
-    }
-    var deletes: [[String]] {
-        return compactMap { $0.delete }
+extension Array where Element == DiffScript {
+    var description: String {
+        var description = ""
+        forEach {
+            switch $0 {
+            case .delete(at: let idx):
+                description += "D{\(idx)}"
+            case .insert(into: let idx):
+                description += "I{\(idx)}"
+            case .same(at: let idx):
+                description += "U{\(idx)}"
+            }
+        }
+        return description
     }
 }
 
 class DiffTests: XCTestCase {
-    func testMatrix() {
-        assert(
-            drawMatrix(from: "abcd", to: "acd") == [
-                [0, 0, 0, 0],
-                [0, 1, 1, 1],
-                [0, 1, 1, 1],
-                [0, 1, 2, 2],
-                [0, 1, 2, 3]
-            ]
-        )
-        assert(
-            drawMatrix(from: "abcdegh", to: "ae") == [
-                [0, 0, 0],
-                [0, 1, 1],
-                [0, 1, 1],
-                [0, 1, 1],
-                [0, 1, 1],
-                [0, 1, 2],
-                [0, 1, 2],
-                [0, 1, 2]
-            ]
-        )
-        assert(
-            drawMatrix(from: "adf", to: "d") == [
-                [0, 0],
-                [0, 0],
-                [0, 1],
-                [0, 1]
-            ]
-        )
-        assert(
-            drawMatrix(from: "d", to: "adf") == [
-                [0, 0, 0, 0],
-                [0, 0, 1, 1]
-            ]
-        )
-        assert(
-             drawMatrix(from: "", to: "") == [
-                [0]
-            ]
-        )
-    }
+    func testDiff() {
+        let scripts = Diff(source: .init("b"), target: .init("abcd")).scripts
 
-    func testStringRange() {
-        assert(
-            "abc"[0] == "a"
-        )
-        assert(
-            "abc"[1] == "b"
-        )
-        assert(
-            "abc"[2] == "c"
-        )
-    }
-
-    func testModification() {
-        let to1 = "abcd"
-        let from1 = "b"
-        let diff1 = Diff(from: from1, to: to1)
-        assert(
-            diff1.modifications.sames == ["b"] &&
-            diff1.modifications.adds == ["a", "cd"] &&
-            diff1.modifications.deletes == []
-        )
-        let to2 = "abcd"
-        let from2 = "bx"
-        let diff2 = Diff(from: from2, to: to2)
-        assert(
-            diff2.modifications.sames == ["b"] &&
-            diff2.modifications.adds == ["a", "cd"] &&
-            diff2.modifications.deletes == ["x"]
-        )
-        let to3 = "A\r\nB\r\nC"
-        let from3 = "A\r\n\r\nB\r\n\r\nC"
-        let diff3 = Diff(from: from3, to: to3)
-        assert(
-            diff3.modifications.sames == ["A", "\r\n", "B", "\r\n", "C"] &&
-            diff3.modifications.adds == [] &&
-            diff3.modifications.deletes == ["\r\n", "\r\n"]
-        )
-        let to4 = ["a", "bc", "d", "c"]
-        let from4 = ["d"]
-        let diff4 = Diff(from: from4, to: to4)
-        assert(
-            diff4.modifications.sames == [["d"]] &&
-            diff4.modifications.adds == [["a", "bc"], ["c"]] &&
-            diff4.modifications.deletes == []
-        )
+        
+        let expectations = [
+            ("abc", "abc", "U{2}U{1}U{0}"),
+            ("abc", "ab", "D{2}U{1}U{0}"),
+            ("ab", "abc", "I{2}U{1}U{0}"),
+            ("", "abc", "I{2}I{1}I{0}"),
+            ("abc", "", "D{2}D{1}D{0}"),
+            ("b", "ac", "D{0}I{1}I{0}"),
+            ("", "", "")
+        ]
+        expectations.forEach {
+            let scripts = Diff(source: .init($0.0), target: .init($0.1)).scripts
+            XCTAssertTrue(
+                scripts.description == $0.2,
+                "\(scripts.description) is no equal to \($0.2)"
+            )
+        }
     }
 
     // swiftlint:disable line_length
     func testTime() {
-        // 1000 character * 1000 character: 3.540s
+        // 1000 character * 1000 character: 0.8s
         measure {
             _ =
             Diff(
-                from: "abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkbexjabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk123abcdhijkabcdhijkabcdhijkabcdhijk12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123",
-                to: "abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk"
+                source: .init("abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkbexjabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk123abcdhijkabcdhijkabcdhijkabcdhijk12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123k12213123"),
+                target: .init("abcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijkabcdhijk")
             )
         }
     }
 
     static var allTests = [
-        ("testMatrix", testMatrix),
-        ("testStringRange", testStringRange),
-        ("testModification", testModification),
+        ("testDiff", testDiff),
         ("testTime", testTime)
     ]
 }

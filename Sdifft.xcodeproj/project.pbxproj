@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1E4BF61B21708396004C5E1F /* DiffSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4BF61A21708396004C5E1F /* DiffSequence.swift */; };
 		1EB1AD2720BD5E22004D0450 /* NSAttributedString+Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB1AD2620BD5E22004D0450 /* NSAttributedString+Diff.swift */; };
 		1EB1AD2920BD640B004D0450 /* NSAttributedString+DiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB1AD2820BD640B004D0450 /* NSAttributedString+DiffTests.swift */; };
 		OBJ_21 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Diff.swift */; };
@@ -48,7 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1E4BF61A21708396004C5E1F /* DiffSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffSequence.swift; sourceTree = "<group>"; };
+		1E78630721C394C5006F4912 /* Sdifft.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Sdifft.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1EB1AD2620BD5E22004D0450 /* NSAttributedString+Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Diff.swift"; sourceTree = "<group>"; };
 		1EB1AD2820BD640B004D0450 /* NSAttributedString+DiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+DiffTests.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* DiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTests.swift; sourceTree = "<group>"; };
@@ -107,6 +106,7 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				1E78630721C394C5006F4912 /* Sdifft.playground */,
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
@@ -126,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* Diff.swift */,
-				1E4BF61A21708396004C5E1F /* DiffSequence.swift */,
 				1EB1AD2620BD5E22004D0450 /* NSAttributedString+Diff.swift */,
 			);
 			name = Sdifft;
@@ -229,7 +228,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null;\nthen\nswiftlint\n#cd Teambition&&swiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null;\nthen\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -238,7 +237,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				1E4BF61B21708396004C5E1F /* DiffSequence.swift in Sources */,
 				1EB1AD2720BD5E22004D0450 /* NSAttributedString+Diff.swift in Sources */,
 				OBJ_21 /* Diff.swift in Sources */,
 			);

@@ -8,24 +8,33 @@ import UIKit
 typealias Color = UIColor
 #endif
 
+extension String {
+    subscript(range: CountableClosedRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(startIndex, offsetBy: range.upperBound)
+        return String(self[start...end])
+    }
+}
+
 extension CGColor: CustomStringConvertible {
     public var description: String {
         let comps: [CGFloat] = components ?? [0, 0, 0, 0]
         if comps == [1, 0, 0, 1] {
-            return "{red}"
+            return "{D}"
         } else if comps == [0, 1, 0, 1] {
-            return "{green}"
+            return "{I}"
         } else {
-            return "{black}"
+            return "{U}"
         }
     }
 }
 
 extension NSAttributedString {
-    // swiftlint:disable line_length
     open override var description: String {
         var description = ""
-        enumerateAttributes(in: NSRange(location: 0, length: string.count), options: .longestEffectiveRangeNotRequired) { (attributes, range, _) in
+        enumerateAttributes(
+            in: NSRange(location: 0, length: string.count),
+            options: .longestEffectiveRangeNotRequired) { (attributes, range, _) in
             let color = attributes[NSAttributedString.Key.backgroundColor] as? Color ?? Color.black
             description += string[range.location...range.location + range.length - 1] + color.cgColor.description
         }
@@ -34,40 +43,87 @@ extension NSAttributedString {
 }
 
 class NSAttributedStringDiffTests: XCTestCase {
-    // swiftlint:disable line_length
+    let insertAttributes: [NSAttributedString.Key: Any] = [
+        .backgroundColor: UIColor.green
+    ]
+
+    let deleteAttributes: [NSAttributedString.Key: Any] = [
+        .backgroundColor: UIColor.red,
+        .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+        .strikethroughColor: UIColor.red,
+        .baselineOffset: 0
+    ]
+
+    let sameAttributes: [NSAttributedString.Key: Any] = [
+        .foregroundColor: UIColor.black
+    ]
+
     func testAttributedString() {
-        let diffAttributes = DiffAttributes(add: [.backgroundColor: Color.green], delete: [.backgroundColor: Color.red], same: [.backgroundColor: Color.black])
-        let to1 = "abcdhijk"
-        let from1 = "bexj"
-        let diff1 = Diff(from: from1, to: to1)
-        let attributedString1 = NSAttributedString.attributedString(with: diff1, attributes: diffAttributes)
-        assert(
-            attributedString1.debugDescription == "a{green}b{black}cdhi{green}ex{red}j{black}k{green}"
-        )
-        let to2 = "bexj"
-        let from2 = "abcdhijk"
-        let diff2 = Diff(from: from2, to: to2)
-        let attributedString2 = NSAttributedString.attributedString(with: diff2, attributes: diffAttributes)
-        assert(
-            attributedString2.debugDescription == "a{red}b{black}ex{green}cdhi{red}j{black}k{red}"
-        )
-        let to3 = ["bexj", "abc", "c"]
-        let from3 = ["abcdhijk"]
-        let diff3 = Diff(from: from3, to: to3)
-        let attributedString3 = NSAttributedString.attributedString(with: diff3, attributes: diffAttributes)
-        assert(
-            attributedString3.debugDescription == "bexjabcc{green}abcdhijk{red}"
-        )
-        let to4 = ["bexj", "abc", "c", "abc"]
-        let from4 = ["abcdhijk", "abc"]
-        let diff4 = Diff(from: from4, to: to4)
-        let attributedString4 = NSAttributedString.attributedString(with: diff4, attributes: diffAttributes)
-        assert(
-            attributedString4.debugDescription == "bexj{green}abcdhijk{red}abc{black}cabc{green}"
-        )
+        let expectations = [
+            ("abc", "abc", "abc{U}"),
+            ("abc", "ab", "ab{U}c{D}"),
+            ("ab", "abc", "ab{U}c{I}"),
+            ("", "abc", "abc{I}"),
+            ("abc", "", "abc{D}"),
+            ("b", "ac", "b{D}ac{I}"),
+            ("abc", "ac", "a{U}b{D}c{U}"),
+            ("", "", "")
+        ]
+        expectations.forEach {
+            let string =
+                NSAttributedString(
+                    source: $0.0, target: $0.1,
+                    attributes: DiffAttributes(insert: insertAttributes, delete: deleteAttributes, same: sameAttributes)
+                )
+            XCTAssertTrue(
+                string.description == $0.2,
+                "\(string.description) is no equal to \($0.2)"
+            )
+        }
+    }
+
+    func testLines() {
+        let expectations: [([String], [String], [String])] = [
+            (["a", "b", "c"], ["a", "b", "c"], ["a", "b", "c"]),
+            (["a", "b", "c"], ["a", "b"], ["a", "b", "-c"]),
+            (["a", "b"], ["a", "b", "c"], ["a", "b", "+c"]),
+            ([], ["a", "b", "c"], ["+a", "+b", "+c"]),
+            (["a", "b", "c"], [], ["-a", "-b", "-c"]),
+            (["b"], ["a", "c"], ["-b", "+a", "+c"]),
+            (["a", "b", "c"], ["a", "c"], ["a", "-b", "c"]),
+            ([], [], [])
+        ]
+        expectations.forEach {
+            let string =
+                NSAttributedString(
+                    source: $0.0, target: $0.1,
+                    attributes: DiffAttributes(
+                        insert: insertAttributes,
+                        delete: deleteAttributes,
+                        same: sameAttributes)
+                    ) { script, string in
+                        let string = NSMutableAttributedString(attributedString: string)
+                        string.append(NSAttributedString(string: "\n"))
+                        switch script {
+                        case .delete:
+                            string.insert(NSAttributedString(string: "-"), at: 0)
+                        case .insert:
+                            string.insert(NSAttributedString(string: "+"), at: 0)
+                        case .same:
+                            break
+                        }
+                        return string
+                    }
+            let result = string.string.split(separator: "\n").map { String($0) }
+            XCTAssertTrue(
+                result == $0.2,
+                "\(result) is no equal to \($0.2)"
+            )
+        }
     }
 
     static var allTests = [
-        ("testAttributedString", testAttributedString)
+        ("testAttributedString", testAttributedString),
+        ("testLines", testLines)
     ]
 }
