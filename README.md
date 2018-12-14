@@ -65,7 +65,7 @@ let attributedString =
 let package = Package(
     name: "XXX",
     dependencies: [
-        .Package(url: "https://github.com/Wzxhaha/Sdifft", majorVersion: 1)
+        .Package(url: "https://github.com/Wzxhaha/Sdifft", majorVersion: 2)
     ]
 )
 ```
