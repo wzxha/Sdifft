@@ -20,9 +20,6 @@ extension Array where Element == DiffScript {
 
 class DiffTests: XCTestCase {
     func testDiff() {
-        let scripts = Diff(source: .init("b"), target: .init("abcd")).scripts
-
-        
         let expectations = [
             ("abc", "abc", "U{2}U{1}U{0}"),
             ("abc", "ab", "D{2}U{1}U{0}"),
