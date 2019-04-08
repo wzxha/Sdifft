@@ -44,18 +44,18 @@ extension NSAttributedString {
 
 class NSAttributedStringDiffTests: XCTestCase {
     let insertAttributes: [NSAttributedString.Key: Any] = [
-        .backgroundColor: UIColor.green
+        .backgroundColor: Color.green
     ]
 
     let deleteAttributes: [NSAttributedString.Key: Any] = [
-        .backgroundColor: UIColor.red,
+        .backgroundColor: Color.red,
         .strikethroughStyle: NSUnderlineStyle.single.rawValue,
-        .strikethroughColor: UIColor.red,
+        .strikethroughColor: Color.red,
         .baselineOffset: 0
     ]
 
     let sameAttributes: [NSAttributedString.Key: Any] = [
-        .foregroundColor: UIColor.black
+        .foregroundColor: Color.black
     ]
 
     func testAttributedString() {

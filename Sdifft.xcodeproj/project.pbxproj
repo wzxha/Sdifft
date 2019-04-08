@@ -192,7 +192,7 @@
 				LastUpgradeCheck = 9999;
 				TargetAttributes = {
 					"Sdifft::SdifftTests" = {
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -201,6 +201,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -295,7 +296,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = Sdifft;
 			};
 			name = Debug;
@@ -320,7 +321,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = Sdifft;
 			};
 			name = Release;
@@ -392,7 +393,7 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = SdifftTests;
 			};
 			name = Debug;
@@ -411,7 +412,7 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = SdifftTests;
 			};
 			name = Release;
