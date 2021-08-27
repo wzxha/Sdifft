@@ -19,7 +19,7 @@ diff.scripts // [.insert(into: 3), .insert(into: 2), .same(into: 1), .insert(int
 /// Get diff attributedString
 let diffAttributes = 
     DiffAttributes(
-        insert: [.backgroundColor: UIColor.green]], 
+        insert: [.backgroundColor: UIColor.green], 
         delete: [.backgroundColor: UIColor.red], 
         same: [.backgroundColor: UIColor.white]
     )
