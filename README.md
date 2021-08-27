@@ -9,7 +9,7 @@ Using [`the Myers's Difference Algorithm`](http://www.xmailserver.org/diff2.pdf)
 ## Example(String)
 
 ```swift
-impoort Sdifft
+import Sdifft
 
 let source = "b"
 let target = "abcd"
@@ -32,11 +32,11 @@ let attributedString = NSAttributedString(source: source, target: target, attrib
 ## Example(Line)
 
 ```swift
-impoort Sdifft
+import Sdifft
 let source = ["Hello"]
 let target = ["Hello", "World", "!"]
 let attributedString = 
-    NSAttributedString(source: source, target: target, attributes: diffAttributes) {
+    NSAttributedString(source: source, target: target, attributes: diffAttributes) { script, string in
         let string = NSMutableAttributedString(attributedString: string)
         string.append(NSAttributedString(string: "\n"))
         switch script {
