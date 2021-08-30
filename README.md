@@ -1,8 +1,8 @@
 # Sdifft
 ![swift version](https://img.shields.io/badge/Language-Swift5-blue.svg)
-[![travis-ci](https://travis-ci.org/Wzxhaha/Sdifft.svg?branch=master)](https://travis-ci.org/Wzxhaha/Sdifft)
-[![codecov](https://codecov.io/gh/Wzxhaha/Sdifft/branch/master/graph/badge.svg)](https://codecov.io/gh/Wzxhaha/Sdifft)
-[![codebeat badge](https://codebeat.co/badges/d37a19b5-3d38-45ae-a7c5-5e453826188d)](https://codebeat.co/projects/github-com-wzxhaha-sdifft-master)
+[![travis-ci](https://travis-ci.org/wzxjiang/Sdifft.svg?branch=master)](https://travis-ci.org/wzxjiang/Sdifft)
+[![codecov](https://codecov.io/gh/wzxjiang/Sdifft/branch/master/graph/badge.svg)](https://codecov.io/gh/wzxjiang/Sdifft)
+[![codebeat badge](https://codebeat.co/badges/7bf0ffc6-ff68-40b9-aa0f-a6de312d126e)](https://codebeat.co/projects/github-com-wzxjiang-sdifft-master)
 
 Using [`the Myers's Difference Algorithm`](http://www.xmailserver.org/diff2.pdf) to compare differences between two equatable element
 
