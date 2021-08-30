@@ -49,7 +49,7 @@ class NSAttributedStringDiffTests: XCTestCase {
 
     let deleteAttributes: [NSAttributedString.Key: Any] = [
         .backgroundColor: Color.red,
-        .strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue,
+        .strikethroughStyle: NSUnderlineStyle.single.rawValue,
         .strikethroughColor: Color.red,
         .baselineOffset: 0
     ]

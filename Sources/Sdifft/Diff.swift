@@ -70,7 +70,7 @@ public class Diff<T: Equatable & Hashable> {
         var furthest = Array(repeating: 0, count: 2 * max + 1)
         var paths: [Path] = []
 
-        let snake: (Int, Int, Int) -> Int = { x, d, k in
+        let snake: (Int, Int, Int) -> Int = { x, _, k in
             var _x = x
             var y: Int { return _x - k }
             while _x < target.count && y < source.count && source[y] == target[_x] {
